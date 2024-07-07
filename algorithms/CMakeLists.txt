@@ -1,0 +1,10 @@
+
+if(NOT DEFINED HEADERS)
+file(GLOB HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/*.hpp)
+endif()
+
+if(NOT DEFINED SOURCES)
+    file(GLOB SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+endif()
+
+add_library(algorithms ${HEADERS} ${SOURCES})
