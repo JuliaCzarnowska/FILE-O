@@ -1,0 +1,30 @@
+{
+	"name": "File-O Container",
+	"build": {
+		"dockerfile": "./Dockerfile"
+	},
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	"features": {
+		"git": "latest",
+		"git-lfs": "latest",
+		"powershell": "latest"
+	},
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+	// Uncomment the next line to run commands after the container is created.
+	// "postCreateCommand": "cat /etc/os-release",
+	"workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/${localWorkspaceFolderBasename},type=bind",
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-vscode.cpptools",
+				"ms-vscode.cpptools-extension-pack",
+				"twxs.cmake",
+				"ms-vscode.cmake-tools",
+				"eamodio.gitlens",
+				"mutantdino.resourcemonitor"
+			]
+		}
+	}
+}
