@@ -9,11 +9,43 @@ project(fileo LANGUAGES CXX C)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
-include(GNUInstallDirs)
-set(CMAKE_PREFIX_PATH "/usr/lib/x86_64-linux-gnu/cmake/") # TODO: fix this hardcoded path
 
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Quick QuickControls2)
+set(CMAKE_PREFIX_PATH "/opt/qt/6.8.0/gcc_64/lib/cmake/") # TODO: fix this hardcoded path
+set(APP_NAME ${CMAKE_PROJECT_NAME})
+set(APP_VERSION ${CMAKE_PROJECT_VERSION})
+
+# Status message
+################################################################################
+
+message(STATUS "[CMAKE] CMAKE_VERSION               = ${CMAKE_VERSION}")
+message(STATUS "[CMAKE] CMAKE_PREFIX_PATH           = ${CMAKE_PREFIX_PATH}")
+message(STATUS "[SYSTEM] (HOST) SYSTEM NAME         = ${CMAKE_HOST_SYSTEM_NAME}")
+message(STATUS "[SYSTEM] (HOST) SYSTEM VERSION      = ${CMAKE_HOST_SYSTEM_VERSION}")
+message(STATUS "[SYSTEM] (TARGET) SYSTEM NAME       = ${CMAKE_SYSTEM_NAME}")
+message(STATUS "[SYSTEM] (TARGET) SYSTEM VERSION    = ${CMAKE_SYSTEM_VERSION}")
+message(STATUS "[PROJECT] SOURCE_DIR                = ${CMAKE_CURRENT_SOURCE_DIR}")
+message(STATUS "[PROJECT] BUILD_TYPE                = ${CMAKE_BUILD_TYPE}")
+message(STATUS "[PROJECT] TOOLCHAIN_FILE            = ${CMAKE_TOOLCHAIN_FILE}")
+message(STATUS "[PROJECT] QT_HOST_PATH              = ${QT_HOST_PATH}")
+
+################################################################################
+include(cmake/Components.cmake)
+
+# Boost
+set(Boost_USE_STATIC_LIBS OFF) 
+set(Boost_USE_MULTITHREADED ON)  
+set(Boost_USE_STATIC_RUNTIME OFF)
+find_package(Boost COMPONENTS ${BOOST_COMPONENTS} REQUIRED)
+
+# QT6
+find_package(Qt6 REQUIRED COMPONENTS ${QT_COMPONENTS})
+set(${APP_NAME}_QT_QUICK ON)
+
+qt_standard_project_setup(REQUIRES 6.8)
 qt_add_executable(fileo main.cpp)
+
+# Places QML modules in ":/qrc/qml/", to omit warning
+qt_policy(SET QTP0001 NEW)
 
 set_source_files_properties(rsrc/qml/Main.qml PROPERTIES
 QT_RESOURCE_ALIAS Main.qml
@@ -33,6 +65,8 @@ target_link_libraries(fileo
     PRIVATE
         Qt6::Core
         Qt6::Gui
+        Qt6::Qml
         Qt6::Quick
         Qt6::QuickControls2
+        Boost::filesystem
 )

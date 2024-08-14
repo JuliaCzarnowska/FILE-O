@@ -1,5 +1,7 @@
 #Build directories
 build/
+conan/*
+!conan/conanfile.txt
 
 #IDE Files
 .vs/

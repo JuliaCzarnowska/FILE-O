@@ -2,6 +2,7 @@
 #include <iostream>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <boost/filesystem.hpp>
 
 int main(int argc, char *argv[])
 {
@@ -19,7 +20,9 @@ int main(int argc, char *argv[])
         },
         Qt::QueuedConnection
     );
-    engine.load(u"qrc:/FileoModule/Main.qml"_qs);
+    engine.load(url);
+
+    std::cout << boost::filesystem::current_path() << std::endl;
 
     return app.exec();
 }

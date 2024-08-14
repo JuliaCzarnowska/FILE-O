@@ -3,7 +3,6 @@
 FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV DISPLAY=host.docker.internal:0.0
-ENV TZ="Europe/Warsaw"
 
 RUN apt-get update -qq &&  \
     apt-get -yq upgrade && \
@@ -11,18 +10,23 @@ RUN apt-get update -qq &&  \
         software-properties-common sudo wget apt-utils file zip \
         openssh-client gpg-agent socat rsync \
         make ninja-build git \
-        python3 python3-pip
+        python3 python3-pip \
+        neovim emacs nano \
+        doxygen graphviz ccache cppcheck
 
 # Install conan
 RUN python3 -m pip install --upgrade pip setuptools && \
-python3 -m pip install conan && \
-conan --version
+    python3 -m pip install conan aqtinstall
 
 ENV CONAN_SYSREQUIRES_SUDO=0
 ENV CONAN_SYSREQUIRES_MODE=enabled
 
-ARG GCC_VER="11"
+RUN conan profile detect && \
+    conan install conan/ --build=missing --settings=build_type=Debug && \
+    conan install conan/ --build=missing --settings=build_type=Release
+
 # Add gcc-${GCC_VER}
+ARG GCC_VER="11"
 RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test && \
     apt-get update -qq && export DEBIAN_FRONTEND=noninteractive && \
     apt-get install -y --no-install-recommends \
@@ -39,25 +43,18 @@ RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/nul
     apt-get update -qq && export DEBIAN_FRONTEND=noninteractive && \
     apt-get install -y --no-install-recommends cmake
 
-# Install editors
-RUN apt-get update -qq && export DEBIAN_FRONTEND=noninteractive && \
-    apt-get install -y --no-install-recommends \
-        neovim emacs nano
-
-# Install optional dependecies
-RUN apt-get update -qq && export DEBIAN_FRONTEND=noninteractive && \
-    apt-get install -y --no-install-recommends \
-        doxygen graphviz ccache cppcheck
-
 # Install QT6 and its dependencies
-RUN apt-get update -qq &&  \
-apt-get -yq upgrade && \
-apt-get -yq install \
-    qt6-base-dev  qt6-declarative-dev\
-    libx11-xcb-dev libxcb-dri3-dev libxcb-icccm4-dev libxcb-image0-dev \
-    libxcb-keysyms1-dev libxcb-randr0-dev libxcb-render-util0-dev \
-    libxcb-render0-dev libxcb-shape0-dev libxcb-sync-dev libxcb-util-dev \
-    libxcb-xfixes0-dev libxcb-xinerama0-dev libxcb-xkb-dev libgl1-mesa-dev
+ARG QT=6.8.0
+ARG QT_MODULES=all
+ARG QT_HOST=linux
+ARG QT_TARGET=desktop
+ARG QT_ARCH=
+RUN aqt install --outputdir /opt/qt ${QT} ${QT_HOST} ${QT_TARGET} ${QT_ARCH} -m ${QT_MODULES}#TODO:
+
+ENV PATH /opt/qt/${QT}/gcc_64/bin:$PATH
+ENV QT_PLUGIN_PATH /opt/qt/${QT}/gcc_64/plugins/
+ENV QML_IMPORT_PATH /opt/qt/${QT}/gcc_64/qml/
+ENV QML2_IMPORT_PATH /opt/qt/${QT}/gcc_64/qml/
 
 ## Cleanup cached apt data we don't need anymore
 RUN apt-get autoremove -y && apt-get clean && \
@@ -65,7 +62,6 @@ RUN apt-get autoremove -y && apt-get clean && \
 
 ENV CC="gcc"
 ENV CXX="g++"
-
 
 
 CMD ["/bin/bash"]
