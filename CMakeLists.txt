@@ -14,21 +14,6 @@ set(CMAKE_PREFIX_PATH "/opt/qt/6.8.0/gcc_64/lib/cmake/") # TODO: fix this hardco
 set(APP_NAME ${CMAKE_PROJECT_NAME})
 set(APP_VERSION ${CMAKE_PROJECT_VERSION})
 
-# Status message
-################################################################################
-
-message(STATUS "[CMAKE] CMAKE_VERSION               = ${CMAKE_VERSION}")
-message(STATUS "[CMAKE] CMAKE_PREFIX_PATH           = ${CMAKE_PREFIX_PATH}")
-message(STATUS "[SYSTEM] (HOST) SYSTEM NAME         = ${CMAKE_HOST_SYSTEM_NAME}")
-message(STATUS "[SYSTEM] (HOST) SYSTEM VERSION      = ${CMAKE_HOST_SYSTEM_VERSION}")
-message(STATUS "[SYSTEM] (TARGET) SYSTEM NAME       = ${CMAKE_SYSTEM_NAME}")
-message(STATUS "[SYSTEM] (TARGET) SYSTEM VERSION    = ${CMAKE_SYSTEM_VERSION}")
-message(STATUS "[PROJECT] SOURCE_DIR                = ${CMAKE_CURRENT_SOURCE_DIR}")
-message(STATUS "[PROJECT] BUILD_TYPE                = ${CMAKE_BUILD_TYPE}")
-message(STATUS "[PROJECT] TOOLCHAIN_FILE            = ${CMAKE_TOOLCHAIN_FILE}")
-message(STATUS "[PROJECT] QT_HOST_PATH              = ${QT_HOST_PATH}")
-
-################################################################################
 include(cmake/Components.cmake)
 
 # Boost

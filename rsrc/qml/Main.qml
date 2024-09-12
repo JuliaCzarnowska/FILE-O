@@ -7,4 +7,8 @@ ApplicationWindow {
     height: 480
     visible: true
     title: qsTr("FILE-O")
+    //flags: Qt.FramelessWindowHint
+    
+
+
 }
