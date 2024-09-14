@@ -1,7 +1,7 @@
 {
 	"name": "File-O Container",
 	"build": {
-		"dockerfile": "./Dockerfile"
+		"dockerfile": "../docker/Dockerfile"
 	},
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	"features": {

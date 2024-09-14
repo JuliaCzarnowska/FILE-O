@@ -55,3 +55,5 @@ target_link_libraries(fileo
         Qt6::QuickControls2
         Boost::filesystem
 )
+
+add_subdirectory(test)
