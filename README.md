@@ -19,20 +19,15 @@ Start dev docker container
 bash docker/run.sh
 ```
 
-Configure project and build
+Configure project and build inside the container
 ```
 bash scripts/configure.sh
 cmake --build ./build
 ```
 
-The container doesn't have X forwarding set up, so you have to execute
-built binaries from host, e.g.
-```
-./build/fileo
-```
-
 ## Visual Studio Code setup
 
+You can alternatively use the devcontainer file with VSCode. 
 Configure VSCode CMake extension to find dependencies installed by Conan.
 Add the following to your workspace `.vscode/settings.json`:
 
