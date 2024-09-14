@@ -21,6 +21,7 @@ RUN apt-get update -qq \
         gpg-agent \
         graphviz \
         libgl1-mesa-dev \
+        locales \
         make \
         nano \
         neovim \
@@ -40,6 +41,14 @@ RUN groupadd --gid $USER_GID $USERNAME \
     && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
     && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
+
+# Set up locale
+USER root
+RUN apt update && apt -y install locales \
+    && locale-gen en_US.UTF-8 \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV LANG="en_US.UTF-8" LANGUAGE="en_US:en" LC_ALL="en_US.UTF-8"
 
 # Install conan
 RUN python3 -m pip install --upgrade pip setuptools && \
