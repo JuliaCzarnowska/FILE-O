@@ -13,6 +13,7 @@ RUN apt-get update -qq \
     && apt-get -yq install \
         apt-utils \
         ccache \
+        clang-format \
         cppcheck \
         doxygen \
         emacs \
