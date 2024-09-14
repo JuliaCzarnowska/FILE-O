@@ -21,6 +21,11 @@ RUN apt-get update -qq \
         gpg-agent \
         graphviz \
         libgl1-mesa-dev \
+        libxcb-cursor0 \
+        libxcb-icccm4 \
+        libxcb-keysyms1 \
+        libxcb-shape0 \
+        libxkbcommon-x11-0 \
         locales \
         make \
         nano \
@@ -38,7 +43,7 @@ RUN apt-get update -qq \
     
 # Create the non-root user
 RUN groupadd --gid $USER_GID $USERNAME \
-    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
+    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME -s /bin/bash \
     && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
 

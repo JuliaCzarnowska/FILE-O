@@ -10,6 +10,10 @@ bash docker/run.sh
 ```
 
 # Build instructions
+To get X11 forwarding working and be able to open graphical programs
+inside the container you need to run `sudo xhost +`. This has a cleaner
+solution but it's not implemented yet.
+
 Start dev docker container 
 ```
 bash docker/run.sh
