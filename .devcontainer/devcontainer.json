@@ -11,11 +11,13 @@
 		"powershell": "latest"
 	},
 	"containerEnv": {
-        "DISPLAY": "${env:DISPLAY}"
+        "DISPLAY": "${env:DISPLAY}",
+		"XAUTHORITY": "/Xauthority"
     },
 	"workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/${localWorkspaceFolderBasename},type=bind",
 	"mounts": [
-        "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind,consistency=cached"
+        "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind,consistency=cached",
+        "source=/run/user/1000/gdm/Xauthority,target=/Xauthority,type=bind,consistency=cached"
     ],
 	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 	"customizations": {
