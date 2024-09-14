@@ -1,12 +1,14 @@
 cmake_minimum_required(VERSION 3.28)
 
+# Set the project props
+project(fileo LANGUAGES CXX C)
+
 if (NOT DEFINED CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 20)
   set(CMAKE_CXX_STANDARD_REQUIRED ON)
 endif()
 
-# Set the project props
-project(fileo LANGUAGES CXX C)
+add_compile_options(-Wall -Wextra -Wpedantic -Werror)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
