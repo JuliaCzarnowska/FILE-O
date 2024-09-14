@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.28)
 
 if (NOT DEFINED CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 20)
+  set(CMAKE_CXX_STANDARD_REQUIRED ON)
 endif()
 
 # Set the project props
@@ -56,4 +57,5 @@ target_link_libraries(fileo
         Boost::filesystem
 )
 
+enable_testing()
 add_subdirectory(test)
